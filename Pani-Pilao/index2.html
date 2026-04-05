@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaDrop - Water Delivery Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item-enter {
+            animation: slideIn 0.3s forwards;
+        }
+        .cart-item-exit {
+            animation: slideOut 0.3s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header/Navbar -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-tint text-blue-500 text-2xl mr-2"></i>
+                <h1 class="text-xl font-bold text-blue-600">Pani Pilao</h1>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="text-gray-700 hover:text-blue-500">Home</a>
+                <a href="#products" class="text-gray-700 hover:text-blue-500">Products</a>
+                <a href="#how-it-works" class="text-gray-700 hover:text-blue-500">How It Works</a>
+                <a href="#testimonials" class="text-gray-700 hover:text-blue-500">Testimonials</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="cart-btn" class="relative">
+                    <i class="fas fa-shopping-cart text-gray-700 text-xl hover:text-blue-500"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full font-medium transition">Sign In</button>
+                <button class="md:hidden" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-gray-700 text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-white border-t md:hidden">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="text-gray-700 hover:text-blue-500 py-2">Home</a>
+                <a href="#products" class="text-gray-700 hover:text-blue-500 py-2">Products</a>
+                <a href="#how-it-works" class="text-gray-700 hover:text-blue-500 py-2">How It Works</a>
+                <a href="#testimonials" class="text-gray-700 hover:text-blue-500 py-2">Testimonials</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white">
+        <div class="container mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Pure Water Delivered to Your Doorstep</h1>
+                <p class="text-xl mb-8 opacity-90">Get mineral water, packaged drinking water, and water dispensers delivered fast and fresh.</p>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <div class="relative flex-grow">
+                        <input type="text" placeholder="Enter your delivery address" class="w-full px-4 py-3 rounded-full text-gray-800 focus:outline-none">
+                        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button class="bg-white text-blue-600 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition whitespace-nowrap">Track Order</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="firstimg.png" alt="Water Bottles" class="rounded-lg shadow-xl max-w-md w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Our Water Categories</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="category-card bg-white rounded-xl shadow-md p-6 text-center transition duration-300 cursor-pointer">
+                    <div class="bg-blue-50 rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-wine-bottle text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Packaged Water</h3>
+                    <p class="text-gray-600 text-sm">Bottled drinking water in various sizes</p>
+                </div>
+                <div class="category-card bg-white rounded-xl shadow-md p-6 text-center transition duration-300 cursor-pointer">
+                    <div class="bg-blue-50 rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tint text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Mineral Water</h3>
+                    <p class="text-gray-600 text-sm">Natural mineral-rich water for health</p>
+                </div>
+                <div class="category-card bg-white rounded-xl shadow-md p-6 text-center transition duration-300 cursor-pointer">
+                    <div class="bg-blue-50 rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-filter text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Purified Water</h3>
+                    <p class="text-gray-600 text-sm">RO purified water for purity</p>
+                </div>
+                <div class="category-card bg-white rounded-xl shadow-md p-6 text-center transition duration-300 cursor-pointer">
+                    <div class="bg-blue-50 rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-glass-whiskey text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Dispensers</h3>
+                    <p class="text-gray-600 text-sm">Water coolers and dispensers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Products -->
+    <section id="products" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Popular Products</h2>
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 hover:bg-blue-50 hover:text-blue-500">All</button>
+                    <button class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 hover:bg-blue-50 hover:text-blue-500">Bottles</button>
+                    <button class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 hover:bg-blue-50 hover:text-blue-500">Jugs</button>
+                    <button class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 hover:bg-blue-50 hover:text-blue-500">Dispensers</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="aqbottale.png" alt="Mineral Water Bottle" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i class="far fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1">AquaPure Mineral Water</h3>
+                        <p class="text-gray-600 text-sm mb-3">25L Bottle • Natural Minerals</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-600">₹35</span>
+                            <button class="add-to-cart bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm" data-id="1" data-name="AquaPure Mineral Water" data-price="25" data-image="https://images.unsplash.com/photo-1567331711402-509c12ff6342?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">Add +</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="water Bottle Bunch.jpg" alt="Packaged Drinking Water" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i class="far fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1">AquaPure Packaged Water</h3>
+                        <p class="text-gray-600 text-sm mb-3">1L Jar • RO Purified • 12 piece</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-600">₹80</span>
+                            <button class="add-to-cart bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm" data-id="2" data-name="PureLife Packaged Water" data-price="80" data-image="https://images.unsplash.com/photo-1604176354204-9268737828e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">Add +</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1603468620909-2dd71053f7d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Water Dispenser" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i class="far fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1">AquaCool Dispenser</h3>
+                        <p class="text-gray-600 text-sm mb-3">Hot & Cold Water • 20L Capacity</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-600">₹3,500</span>
+                            <button class="add-to-cart bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm" data-id="3" data-name="AquaCool Dispenser" data-price="3500" data-image="https://images.unsplash.com/photo-1603468620909-2dd71053f7d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">Add +</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1603569283847-aa6a53b5d1b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Glass Water Bottles" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md">
+                            <i class="far fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-1">EcoGlass Bottle</h3>
+                        <p class="text-gray-600 text-sm mb-3">750ml • Reusable Glass</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-600">₹299</span>
+                            <button class="add-to-cart bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm" data-id="4" data-name="EcoGlass Bottle" data-price="299" data-image="https://images.unsplash.com/photo-1603569283847-aa6a53b5d1b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">Add +</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="bg-white border border-blue-500 text-blue-500 hover:bg-blue-50 px-6 py-2 rounded-full font-medium">View All Products</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">How AquaDrop Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-blue-50 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-map-marker-alt text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3">1. Choose Your Location</h3>
+                    <p class="text-gray-600">Enter your delivery address to see products available in your area.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-blue-50 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-shopping-cart text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3">2. Order Water Products</h3>
+                    <p class="text-gray-600">Browse our selection and add items to your cart.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-blue-50 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-truck text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3">3. Fast Delivery</h3>
+                    <p class="text-gray-600">Get your order delivered to your doorstep within hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">What Our Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm">2 days ago</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"The water delivery was super fast and the quality is excellent. I'm impressed with their service!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Priya Sharma</h4>
+                            <p class="text-gray-500 text-sm">Delhi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm">1 week ago</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"I've been using AquaDrop for 6 months now. Never had any issues with delivery or quality. Highly recommended!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Rahul Patel</h4>
+                            <p class="text-gray-500 text-sm">Mumbai</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm">3 days ago</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Their subscription service is a lifesaver! Fresh water delivered automatically every week without fail."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">Ananya Gupta</h4>
+                            <p class="text-gray-500 text-sm">Bangalore</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download -->
+    <section class="py-12 bg-blue-600 text-white">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h2 class="text-3xl font-bold mb-4">Get the AquaDrop App</h2>
+                <p class="text-xl mb-6 opacity-90">Download our app for faster ordering, exclusive deals, and order tracking.</p>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <button class="bg-black text-white px-6 py-3 rounded-lg flex items-center justify-center">
+                        <i class="fab fa-apple text-2xl mr-2"></i>
+                        <div class="text-left">
+                            <div class="text-xs">Download on the</div>
+                            <div class="font-medium">App Store</div>
+                        </div>
+                    </button>
+                    <button class="bg-black text-white px-6 py-3 rounded-lg flex items-center justify-center">
+                        <i class="fab fa-google-play text-2xl mr-2"></i>
+                        <div class="text-left">
+                            <div class="text-xs">Get it on</div>
+                            <div class="font-medium">Google Play</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="https://cdn.dribbble.com/users/1787323/screenshots/11324447/media/1b5b0b8f8b5d521f4b1e8e5e5e8e5e5e.png" alt="Mobile App" class="max-w-xs w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-tint text-blue-400 text-2xl mr-2"></i>
+                        <h3 class="text-xl font-bold">AquaDrop</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">Delivering pure water to your doorstep since 2015.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Press</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Have Questions?</h4>
+                    <p class="text-gray-400 mb-4">We're available 24/7 to answer your queries.</p>
+                    <div class="flex items-center">
+                        <i class="fas fa-phone-alt text-blue-400 mr-2"></i>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <i class="fas fa-envelope text-blue-400 mr-2"></i>
+                        <span>support@aquadrop.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 AquaDrop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-full md:w-96 h-full bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Your Cart</h3>
+                <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="space-y-4">
+                <!-- Cart items will be added here dynamically -->
+                <div class="text-center py-10 text-gray-500" id="empty-cart-message">
+                    <i class="fas fa-shopping-cart text-4xl mb-4 opacity-30"></i>
+                    <p>Your cart is empty</p>
+                    <p class="text-sm mt-2">Add some products to your cart</p>
+                </div>
+            </div>
+            
+            <div id="cart-summary" class="border-t border-gray-200 pt-4 mt-6 hidden">
+                <div class="flex justify-between mb-2">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">₹0</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span>Delivery Fee</span>
+                    <span id="delivery-fee">₹20</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg mt-4">
+                    <span>Total</span>
+                    <span id="cart-total">₹20</span>
+                </div>
+                <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium mt-6">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Shopping Cart Functionality
+        const cartBtn = document.getElementById('cart-btn');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const closeCart = document.getElementById('close-cart');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const cartSummary = document.getElementById('cart-summary');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const cartTotal = document.getElementById('cart-total');
+        const deliveryFee = document.getElementById('delivery-fee');
+        
+        let cart = [];
+        
+        // Open/Close Cart
+        cartBtn.addEventListener('click', () => {
+            cartSidebar.classList.remove('translate-x-full');
+            cartOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeCart.addEventListener('click', () => {
+            cartSidebar.classList.add('translate-x-full');
+            cartOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        cartOverlay.addEventListener('click', () => {
+            cartSidebar.classList.add('translate-x-full');
+            cartOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Add to Cart
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                const name = e.target.dataset.name;
+                const price = parseFloat(e.target.dataset.price);
+                const image = e.target.dataset.image;
+                
+                // Check if item already in cart
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price,
+                        image,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+                
+                // Show cart sidebar if it's hidden
+                if (cartSidebar.classList.contains('translate-x-full')) {
+                    cartSidebar.classList.remove('translate-x-full');
+                    cartOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+                
+                // Add animation to button
+                e.target.classList.add('animate-ping');
+                setTimeout(() => {
+                    e.target.classList.remove('animate-ping');
+                }, 300);
+            });
+        });
+        
+        // Update Cart UI
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart items
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+                cartSummary.classList.add('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cartSummary.classList.remove('hidden');
+                
+                let subtotal = 0;
+                
+                cart.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                    
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'flex items-center justify-between border-b border-gray-100 pb-4 cart-item-enter';
+                    cartItem.innerHTML = `
+                        <div class="flex items-center">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg mr-4">
+                            <div>
+                                <h4 class="font-medium">${item.name}</h4>
+                                <p class="text-gray-600 text-sm">₹${item.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <button class="decrease-quantity w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center" data-id="${item.id}">-</button>
+                            <span class="mx-2 w-8 text-center">${item.quantity}</span>
+                            <button class="increase-quantity w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center" data-id="${item.id}">+</button>
+                            <button class="remove-item ml-4 text-red-500 hover:text-red-700" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    cartItemsContainer.appendChild(cartItem);
+                });
+                
+                // Update totals
+                const delivery = subtotal > 500 ? 0 : 20;
+                const total = subtotal + delivery;
+                
+                cartSubtotal.textContent = `₹${subtotal.toFixed(2)}`;
+                deliveryFee.textContent = delivery === 0 ? 'FREE' : `₹${delivery.toFixed(2)}`;
+                cartTotal.textContent = `₹${total.toFixed(2)}`;
+            }
+        }
+        
+        // Handle quantity changes and item removal
+        document.addEventListener('click', (e) => {
+            // Increase quantity
+            if (e.target.classList.contains('increase-quantity')) {
+                const id = e.target.dataset.id;
+                const item = cart.find(item => item.id === id);
+                if (item) {
+                    item.quantity += 1;
+                    updateCart();
+                }
+            }
+            
+            // Decrease quantity
+            if (e.target.classList.contains('decrease-quantity')) {
+                const id = e.target.dataset.id;
+                const item = cart.find(item => item.id === id);
+                if (item && item.quantity > 1) {
+                    item.quantity -= 1;
+                    updateCart();
+                } else if (item && item.quantity === 1) {
+                    cart = cart.filter(item => item.id !== id);
+                    updateCart();
+                }
+            }
+            
+            // Remove item
+            if (e.target.classList.contains('remove-item') || e.target.closest('.remove-item')) {
+                const button = e.target.classList.contains('remove-item') ? e.target : e.target.closest('.remove-item');
+                const id = button.dataset.id;
+                cart = cart.filter(item => item.id !== id);
+                updateCart();
+            }
+        });
+    </script>
+</body>
+</html>

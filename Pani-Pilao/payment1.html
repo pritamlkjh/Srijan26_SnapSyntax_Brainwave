@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Delivery - Family Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color:#00b4db;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .plan-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .plan-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 30px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .plan-name {
+            font-size: 1.8rem;
+            color: #fcfeff;
+            margin-bottom: 10px;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color:#00b4db;
+            margin-bottom: 20px;
+        }
+        
+        .plan-price span {
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+        
+        .plan-description {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .features {
+            margin-bottom: 30px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .feature i {
+            color: #27ae60;
+            margin-right: 10px;
+        }
+        
+        .highlight-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .image-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 50px;
+        }
+        
+        .product-image {
+            max-width: 400px;
+        }
+        
+        /* Payment Section Styles */
+        .payment-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .payment-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .payment-method {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .payment-method:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .payment-method.selected {
+            border-color: #27ae60;
+            background-color: #f0fff4;
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .payment-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .payment-details.active {
+            display: block;
+        }
+        
+        .upi-details, .bank-details {
+            margin-top: 15px;
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: #eee;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .plan-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .image-container {
+                justify-content: center;
+            }
+            
+            .product-image {
+                max-width: 100%;
+            }
+            
+            .payment-methods {
+                flex-direction: column;
+            }
+            
+            .payment-method {
+                min-width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">AquaPure</div>
+            <div class="tagline">Pure Water Delivery Service</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="plan-container">
+            <div class="plan-card">
+                <div class="highlight-badge">Most Popular</div>
+                <h2 class="plan-name">Family Plan</h2>
+                <div class="plan-price">₹599<span>/month</span></div>
+                <p class="plan-description">Best for medium families</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>8 x 20L Jugs per month</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>Free delivery</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>Flexible delivery schedule</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>Priority support</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>Free dispenser maintenance</span>
+                    </div>
+                </div>
+                
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <h3 class="payment-title">Choose Payment Method</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="upi">
+                            <div class="payment-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="payment-name">UPI Payment</div>
+                            <div class="payment-desc">Pay via UPI apps</div>
+                        </div>
+                        
+                        <div class="payment-method" data-method="cash">
+                            <div class="payment-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="payment-name">Cash</div>
+                            <div class="payment-desc">Pay on delivery</div>
+                        </div>
+                        
+                        <div class="payment-method" data-method="bank">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="payment-name">Online Banking</div>
+                            <div class="payment-desc">Bank Transfer</div>
+                        </div>
+                    </div>
+                    
+                    <!-- UPI Payment Details -->
+                    <div class="payment-details" id="upi-details">
+                        <h4>UPI Payment Instructions</h4>
+                        <p>Scan the QR code below or send payment to our UPI ID:</p>
+                        
+                        <div class="qr-code">
+                            [Your UPI QR Code]
+                        </div>
+                        
+                        <div class="upi-details">
+                            <p><strong>UPI ID:</strong> yourbusiness@upi</p>
+                            <p>After payment, please share the transaction ID with us.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Cash Payment Details -->
+                    <div class="payment-details" id="cash-details">
+                        <h4>Cash Payment</h4>
+                        <p>Our delivery executive will collect the payment in cash when delivering your order.</p>
+                        <p>Please keep exact change ready for faster transaction.</p>
+                    </div>
+                    
+                    <!-- Bank Transfer Details -->
+                    <div class="payment-details" id="bank-details">
+                        <h4>Online Banking Details</h4>
+                        <div class="bank-details">
+                            <p><strong>Bank Name:</strong> Your Bank Name</p>
+                            <p><strong>Account Name:</strong> Your Business Name</p>
+                            <p><strong>Account Number:</strong> 1234567890</p>
+                            <p><strong>IFSC Code:</strong> ABCD0123456</p>
+                            <p>After payment, please share the transaction reference number with us.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="image-container">
+            <img src="3.png" alt="Water dispenser" class="product-image">
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 AquaPure Water Delivery. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Payment method selection
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const paymentDetails = document.querySelectorAll('.payment-details');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Remove selected class from all methods
+                    paymentMethods.forEach(m => m.classList.remove('selected'));
+                    
+                    // Add selected class to clicked method
+                    this.classList.add('selected');
+                    
+                    // Hide all payment details
+                    paymentDetails.forEach(detail => detail.classList.remove('active'));
+                    
+                    // Show corresponding payment details
+                    const methodType = this.getAttribute('data-method');
+                    document.getElementById(`${methodType}-details`).classList.add('active');
+                });
+            });
+            
+            // Select UPI by default
+            document.querySelector('.payment-method[data-method="upi"]').click();
+            
+            // Animation for the plan card
+            const planCard = document.querySelector('.plan-card');
+            
+            planCard.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.15)';
+            });
+            
+            planCard.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

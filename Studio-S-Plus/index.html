@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Studio S+ Photography</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    header {
+      background: rgba(0, 128, 96, 0.85);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+      animation: slideDown 1s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.95rem;
+      padding: 5px 10px;
+      border-bottom: 2px solid white;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+      transform: scale(1.1);
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 0 20px;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .btn {
+      background: linear-gradient(to bottom, rgba(0, 128, 96, 0.85), rgb(249, 253, 252));
+      color: black;
+      padding: 12px 25px;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      position: relative;
+      top: 0;
+      animation: blink 1.5s infinite;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to bottom, #f1f1f1, #d4d4d4);
+      color: black;
+      top: 2px;
+      box-shadow: 0 3px 0 #888;
+      animation: none;
+    }
+
+    .section {
+      background: white;
+      padding: 60px 20px;
+      text-align: center;
+      animation: fadeUp 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    /* Recent Work Section */
+    .recent-work {
+      background: #f9f9f9;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .recent-work h2 {
+      font-size: 1.8rem;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      aspect-ratio: 4/3;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color: white;
+      padding: 20px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+
+    .gallery-caption h3 {
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+    }
+
+    .gallery-caption p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .view-more {
+      margin-top: 40px;
+    }
+
+    .view-more a {
+      display: inline-block;
+      padding: 12px 30px;
+      background: rgba(0, 128, 96, 0.85);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(0, 128, 96, 0.85);
+    }
+
+    .view-more a:hover {
+      background: transparent;
+      color: rgba(0, 128, 96, 0.85);
+    }
+
+    /* Styles for Reviews Section */
+    .reviews {
+      background: #f0fafa;
+      padding: 60px 20px;
+      text-align: center;
+      animation: fadeUp 1s ease-in-out forwards;
+    }
+
+    .reviews .subtitle {
+      color: rgba(0, 128, 96, 0.85);
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .reviews h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid rgba(0, 128, 96, 0.85);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .review-card .client-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .review-card .client-info .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 128, 96, 0.85);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .review-card .client-info h4 {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .review-card .client-info p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .review-card .quote {
+      font-size: 0.95rem;
+      color: #333;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .review-card .stars {
+      color: rgba(0, 128, 96, 0.85);
+      font-size: 1rem;
+    }
+
+    .footer {
+      background: #0d0d0d;
+      color: #fff;
+      padding: 50px 20px;
+      animation: fadeInFooter 2s ease-in-out;
+    }
+
+    @keyframes fadeInFooter {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-column {
+      flex: 1 1 200px;
+      margin: 10px 20px;
+    }
+
+    .footer-column h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .footer-column ul li a {
+      text-decoration: none;
+      color: #ccc;
+      transition: color 0.3s;
+    }
+
+    .footer-column ul li a:hover {
+      color: #fff;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background-color: #fff;
+      color: black;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .footer-column {
+        margin: 20px 0;
+      }
+
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <video class="video-bg" autoplay muted loop>
+    <source src="id.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <header>
+    <div class="logo">Studio S+ Photography</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pricing.html">Pricing Plans</a>
+      <a href="protfolio.html">Portfolios</a>
+      <a href="video.html">Video</a>
+      <a href="contect.html">About Me</a>
+      <a href="about.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Studio S+ Production Wedding Photography</h1>
+    <p>Take the best quality services</p>
+    <a href="about.html" class="btn">Book Now →</a>
+  </section>
+
+  <section class="section">
+    <h2>We're a Team of Creative Wedding Photographers</h2>
+    <p>
+      We specialize in candid and cinematic wedding photography, offering customized packages to make your moments memorable. Contact us for wedding, pre-wedding, rice ceremony, makeover photoshoot and more.
+    </p>
+  </section>
+
+  <section class="recent-work">
+    <h2>Our Recent Work</h2>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="omk5.jpeg" alt="Wedding Photography">
+        <div class="gallery-caption">
+          <h3>Traditional Wedding</h3>
+          <p>Jhalda, Purulia</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="bimg5.jpeg" alt="Pre-Wedding Shoot">
+        <div class="gallery-caption">
+          <h3>Pre-Wedding Shoot</h3>
+          <p>Kolkata</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Bridal Portraits">
+        <div class="gallery-caption">
+          <h3>Bridal Portraits</h3>
+          <p>Studio Session</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Candid Moments">
+        <div class="gallery-caption">
+          <h3>Candid Moments</h3>
+          <p>Wedding Reception</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Couple Portraits">
+        <div class="gallery-caption">
+          <h3>Couple Portraits</h3>
+          <p>Sunset Session</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Ceremony Details">
+        <div class="gallery-caption">
+          <h3>Ceremony Details</h3>
+          <p>Traditional Rituals</p>
+        </div>
+      </div>
+    </div>
+    <div class="view-more">
+      <a href="protfolio.html">View Full Portfolio</a>
+    </div>
+  </section>
+
+  <section class="reviews" id="reviews">
+    <span class="subtitle">CLIENT LOVE</span>
+    <h2>What Our Clients Say</h2>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="client-info">
+          <div class="avatar">AK</div>
+          <div>
+            <h4>Amit Kumar</h4>
+            <p>Wedding Client</p>
+          </div>
+        </div>
+        <p class="quote">"Somnath captured our wedding day perfectly. He noticed moments we didn't even see ourselves. The photos tell our story better than words ever could."</p>
+        <div class="stars">
+          ★★★★★
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="client-info">
+          <div class="avatar">PS</div>
+          <div>
+            <h4>Priya Sharma</h4>
+            <p>Portrait Client</p>
+          </div>
+        </div>
+        <p class="quote">"I've never felt so comfortable in front of a camera! Studio S+ made the experience fun and the results were stunning. I'll cherish these photos forever."</p>
+        <div class="stars">
+          ★★★★★
+        </div>
+      </div>
+            
+      <div class="review-card">
+        <div class="client-info">
+          <div class="avatar">PS</div>
+          <div>
+            <h4>Priya Sharma</h4>
+            <p>Portrait Client</p>
+          </div>
+        </div>
+        <p class="quote">"I've never felt so comfortable in front of a camera! Studio S+ made the experience fun and the results were stunning. I'll cherish these photos forever."</p>
+        <div class="stars">
+          ★★★★★
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Studio S+</h3>
+        <p>Capturing emotions, creating memories through premium photography and cinematic videography.</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/studiosplus_photography24/" target="_blank">📷</a>
+          <a href="https://www.facebook.com/indra.chandra.37853" target="_blank">📘</a>
+          <a href="https://www.youtube.com/@dreamshots7352" target="_blank">💬</a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h3>Services</h3>
+        <ul>
+          <li>Wedding Photography</li>
+          <li>Pre-Wedding Shoots</li>
+          <li>Cinematic Videos</li>
+          <li>Event Coverage</li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="contact.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Contact Info</h3>
+        <ul>
+          <li>📞 +91 8158027690</li>
+          <li>📧studioscinematography@gmail.com</li>
+          <li>📍 Jhalda, Purulia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 STUDIO S+ PRODUCTION. All rights reserved. Created by Surajit Das (Jadavpur University, CSE)
+    </div>
+  </footer>
+</body>
+</html>
+

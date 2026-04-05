@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pani Pilao - Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .water-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .water-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            animation: waterFlow 6s linear infinite;
+        }
+        @keyframes waterFlow {
+            0% {
+                transform: rotate(30deg) translate(-10%, -10%);
+            }
+            100% {
+                transform: rotate(30deg) translate(10%, 10%);
+            }
+        }
+        .otp-input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+        }
+        .otp-input:focus {
+            outline: 2px solid #3b82f6;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 42px;
+            cursor: pointer;
+            color: #6b7280;
+            z-index: 10;
+        }
+        .password-toggle:hover {
+            color: #4b5563;
+        }
+        .password-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+        <!-- Left Side - Branding -->
+        <div class="bg-blue-600 text-white p-8 md:w-1/2 relative water-effect">
+            <div class="relative z-10">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-tint text-4xl mr-3"></i>
+                    <h1 class="text-3xl font-bold">Pani Pilao</h1>
+                </div>
+                <h2 class="text-2xl font-semibold mb-4">Welcome Back!</h2>
+                <p class="mb-6">Sign in to manage your water delivery services and track your orders.</p>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="bg-blue-500 rounded-full p-2 mr-3">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <p>Fast and reliable water delivery</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-blue-500 rounded-full p-2 mr-3">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <p>Secure and trusted service</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-blue-500 rounded-full p-2 mr-3">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <p>24/7 customer support</p>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-4 left-0 right-0 text-center text-blue-100 text-sm">
+                <p>Need help? <a href="#" class="underline">Contact our support</a></p>
+            </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="p-8 md:w-1/2">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Create Your Account</h2>
+            
+            <form id="signupForm" class="space-y-4">
+                <!-- Step 1: Basic Information -->
+                <div id="step1">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 mb-2">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="name" name="name" required
+                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="address" class="block text-gray-700 mb-2">Full Address <span class="text-red-500">*</span></label>
+                        <textarea id="address" name="address" rows="2" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                            placeholder="Street, Area, City"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="house-number" class="block text-gray-700 mb-2">House/Flat No. <span class="text-red-500">*</span></label>
+                            <input type="text" id="house-number" name="house-number" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Apt 12, Building 5">
+                        </div>
+                        <div>
+                            <label for="landmark" class="block text-gray-700 mb-2">Landmark <span class="text-red-500">*</span></label>
+                            <input type="text" id="landmark" name="landmark" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Near Central Park">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="phone" class="block text-gray-700 mb-2">Phone Number <span class="text-red-500">*</span></label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-lg">
+                                +91
+                            </span>
+                            <input type="tel" id="phone" name="phone" required
+                                 class="rounded-none rounded-r-lg border border-gray-300 w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                                pattern="[0-9]{10}" maxlength="10" placeholder="9876543210">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 mb-2">Email ID <span class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email" required
+                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                             placeholder="example@panipilao.com">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700 mb-2">Create Password <span class="text-red-500">*</span></label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" required minlength="8"
+                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <span class="password-toggle" id="togglePassword">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="confirm-password" class="block text-gray-700 mb-2">Confirm Password <span class="text-red-500">*</span></label>
+                        <div class="password-container">
+                            <input type="password" id="confirm-password" name="confirm-password" required
+                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <span class="password-toggle" id="toggleConfirmPassword">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="button" id="nextBtn"
+                         class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+                        <a href="otp.html">Get OTP</a><i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- Step 2: OTP Verification -->
+                <div id="step2" class="hidden">
+                    <div class="text-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800">OTP Verification</h3>
+                        <p class="text-gray-600">We've sent a verification code to your phone</p>
+                        <p class="font-medium" id="otpPhoneDisplay"></p>
+                    </div>
+
+                    <div class="flex justify-center mb-6">
+                        <input type="text" maxlength="1" class="otp-input border border-gray-300 rounded" data-index="1">
+                        <input type="text" maxlength="1" class="otp-input border border-gray-300 rounded" data-index="2">
+                        <input type="text" maxlength="1" class="otp-input border border-gray-300 rounded" data-index="3">
+                        <input type="text" maxlength="1" class="otp-input border border-gray-300 rounded" data-index="4">
+                        <input type="text" maxlength="1" class="otp-input border border-gray-300 rounded" data-index="5">
+                        <input type="text" maxlength="1" class="otp-input border border-gray-300 rounded" data-index="6">
+                    </div>
+                    <input type="hidden" id="otp" name="otp">
+
+                    <div class="text-center mb-4">
+                        <p class="text-gray-600">Didn't receive code? <a href="#" id="resendOtp" class="text-blue-600 hover:underline">Resend</a></p>
+                        <p id="countdown" class="text-sm text-gray-500 mt-1"></p>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="button" id="backBtn"
+                             class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="submit" id="submitBtn"
+                             class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+                            Submit <i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">Already have an account? <a href="#" class="text-blue-600 hover:underline">Sign In</a></p>
+            </div>
+
+            <div class="mt-8 border-t pt-6">
+                <p class="text-gray-500 text-sm text-center">By signing up, you agree to our <a href="#" class="text-blue-600 hover:underline">Terms</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const nextBtn = document.getElementById('nextBtn');
+            const backBtn = document.getElementById('backBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const resendOtp = document.getElementById('resendOtp');
+            const otpPhoneDisplay = document.getElementById('otpPhoneDisplay');
+            const phoneInput = document.getElementById('phone');
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const hiddenOtp = document.getElementById('otp');
+            const countdownEl = document.getElementById('countdown');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const togglePassword = document.getElementById('togglePassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+            let countdown;
+            let countdownTime = 60;
+
+            // Password toggle functionality
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+
+            toggleConfirmPassword.addEventListener('click', function() {
+                const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPasswordInput.setAttribute('type', type);
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+
+            // Password validation
+            confirmPasswordInput.addEventListener('input', function() {
+                if (passwordInput.value !== this.value) {
+                    this.setCustomValidity("Passwords don't match");
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            // Move to OTP verification
+            nextBtn.addEventListener('click', function() {
+                // Validate passwords match
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    alert("Passwords don't match");
+                    return;
+                }
+
+                if (!signupForm.checkValidity()) {
+                    signupForm.reportValidity();
+                    return;
+                }
+
+                // In a real app, you would send the OTP to the user's phone here
+                // For demo, we'll just show the OTP in console
+                const demoOtp = Math.floor(100000 + Math.random() * 900000);
+                console.log('Demo OTP:', demoOtp);
+
+                // Display masked phone number
+                const phone = phoneInput.value;
+                const maskedPhone = phone.substring(0, 3) + 'XXXXX' + phone.substring(8);
+                otpPhoneDisplay.textContent = `+91 ${maskedPhone}`;
+
+                // Show OTP step
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+
+                // Start countdown
+                startCountdown();
+            });
+
+            // Back to basic info
+            backBtn.addEventListener('click', function() {
+                step2.classList.add('hidden');
+                step1.classList.remove('hidden');
+                clearInterval(countdown);
+            });
+
+            // Resend OTP
+            resendOtp.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // In a real app, you would resend the OTP here
+                const demoOtp = Math.floor(100000 + Math.random() * 900000);
+                console.log('New Demo OTP:', demoOtp);
+
+                // Reset countdown
+                clearInterval(countdown);
+                countdownTime = 60;
+                startCountdown();
+
+                // Show success message
+                alert('New OTP has been sent to your phone number');
+            });
+
+            // OTP input handling
+            otpInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1) {
+                        const nextIndex = parseInt(this.dataset.index) + 1;
+                        const nextInput = document.querySelector(`.otp-input[data-index="${nextIndex}"]`);
+                        if (nextInput) {
+                            nextInput.focus();
+                        }
+                    }
+
+                    updateHiddenOtp();
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0) {
+                        const prevIndex = parseInt(this.dataset.index) - 1;
+                        const prevInput = document.querySelector(`.otp-input[data-index="${prevIndex}"]`);
+                        if (prevInput) {
+                            prevInput.focus();
+                        }
+                    }
+                });
+            });
+
+            function updateHiddenOtp() {
+                let otp = '';
+                otpInputs.forEach(input => {
+                    otp += input.value;
+                });
+                hiddenOtp.value = otp;
+            }
+
+            function startCountdown() {
+                countdownEl.textContent = `Resend OTP in ${countdownTime} seconds`;
+
+                countdown = setInterval(() => {
+                    countdownTime--;
+                    countdownEl.textContent = `Resend OTP in ${countdownTime} seconds`;
+
+                    if (countdownTime <= 0) {
+                        clearInterval(countdown);
+                        countdownEl.textContent = '';
+                        resendOtp.classList.remove('text-blue-600');
+                        resendOtp.classList.add('text-green-600');
+                    }
+                }, 1000);
+            }
+
+            // Form submission
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Validate OTP (in a real app, you would verify with server)
+                const enteredOtp = hiddenOtp.value;
+                if (enteredOtp.length !== 6) {
+                    alert('Please enter a valid 6-digit OTP');
+                    return;
+                }
+
+                // Show loading on button
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                submitBtn.disabled = true;
+
+                // Simulate API call
+                setTimeout(() => {
+                    alert('Account created successfully!');
+                    // Reset form
+                    signupForm.reset();
+                    otpInputs.forEach(input => input.value = '');
+                    step2.classList.add('hidden');
+                    step1.classList.remove('hidden');
+                    submitBtn.innerHTML = 'Submit <i class="fas fa-check ml-2"></i>';
+                    submitBtn.disabled = false;
+                    clearInterval(countdown);
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

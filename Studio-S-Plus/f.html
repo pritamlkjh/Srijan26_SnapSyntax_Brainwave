@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio S+ Production - Premium Photography Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Font Import */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    /* Base Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+      color: #1f2937;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    /* Video Background */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.4);
+    }
+    
+    /* Navigation */
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Pricing Cards */
+    .price-card {
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .price-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .highlight-card {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    }
+    
+    /* Feature Icons */
+    .feature-icon {
+      color: #059669;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    
+    .highlight-card .feature-icon {
+      color: white;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 1s ease-out forwards;
+    }
+    
+    .animate-bounce {
+      animation: bounce 2s infinite;
+    }
+    
+    /* FAQ Accordion */
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      will-change: max-height;
+      transition: 
+        max-height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.3s ease,
+        transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(-10px);
+      padding: 0 1rem;
+    }
+    
+    .faq-content.active {
+      max-height: 1000px;
+      opacity: 1;
+      transform: translateY(0);
+      padding: 1rem;
+    }
+    
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+    
+    .faq-toggle {
+      transition: 
+        background-color 0.3s ease,
+        transform 0.2s ease;
+    }
+    .faq-toggle:hover {
+      transform: translateX(5px);
+    }
+    
+    .faq-item {
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Back to Top Button */
+    #back-to-top {
+      transition: all 0.3s ease;
+    }
+    
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #back-to-top:hover {
+      background-color: #047857;
+      transform: translateY(-3px);
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #059669;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #047857;
+    }
+    
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      color: white;
+      padding: 180px 5% 100px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #ffffff, #e0e0e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .filter-links {
+      margin: 0 auto 40px;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 5%;
+    }
+    .filter-links a {
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 8px 20px;
+      font-weight: 600;
+      color: white;
+      border-radius: 30px;
+      transition: all 0.3s;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .filter-links a.active,
+    .filter-links a:hover {
+      background: rgba(59, 130, 246, 0.5);
+      color: white;
+      border-color: rgba(59, 130, 246, 0.7);
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0 5% 50px;
+      z-index: 2;
+      position: relative;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      aspect-ratio: 1/1;
+      position: relative;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .card:hover {
+      transform: translateY(-10px) scale(1.02) rotateY(5deg) rotateX(5deg);
+      box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(236, 72, 153, 0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      transform: translateZ(-10px);
+    }
+    .card:hover::after {
+      opacity: 1;
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover::after {
+      opacity: 1;
+    }
+    .makeup-artists {
+      background: rgba(15, 23, 42, 0.9);
+      padding: 80px 5%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .makeup-artists h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: white;
+      font-weight: 700;
+    }
+    .makeup-artists .subtitle {
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      display: block;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .makeup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .artist-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .artist-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+      border-radius: 16px;
+      transform: translateZ(-10px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .artist-card:hover {
+      transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+    .artist-card:hover::before {
+      opacity: 1;
+      transform: translateZ(-15px);
+    }
+    .artist-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(59, 130, 246, 0.5);
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .artist-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+    }
+    .artist-card p {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    .artist-card .contact-info {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .artist-card .contact-info a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .artist-card .contact-info a:hover {
+      color: #ec4899;
+      text-decoration: underline;
+    }
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      z-index: 999;
+      background: #25D366;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      transition: all 0.3s ease;
+      transform-style: preserve-3d;
+    }
+    .whatsapp-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      transform: translateZ(-5px);
+      transition: all 0.3s ease;
+    }
+    .whatsapp-btn:hover {
+      transform: scale(1.1) rotateY(15deg);
+      box-shadow: 5px 5px 25px rgba(37, 211, 102, 0.5);
+    }
+    .whatsapp-btn:hover::before {
+      transform: translateZ(-8px);
+    }
+    .whatsapp-btn i {
+      font-size: 2rem;
+      color: white;
+    }
+    .hidden {
+      display: none;
+    }
+    footer {
+      background-color: rgba(15, 23, 42, 0.95);
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 30px 10px;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      margin-top: 20px;
+    }
+    /* Animation Classes */
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    /* Mobile Responsive Design */
+    @media (max-width: 1024px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      .portfolio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 15px;
+      }
+    }
+    @media (max-width: 768px) {
+      header {
+        top: auto;
+        bottom: 0;
+        padding: 10px 5%;
+        justify-content: center;
+      }
+      .logo {
+        display: none; /* Hide logo on mobile to save space */
+      }
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        left: 5%;
+      }
+      nav ul {
+        display: none;
+      }
+      .hero {
+        padding: 150px 5% 80px;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      .filter-links {
+        gap: 8px;
+      }
+      .filter-links a {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+      }
+      .portfolio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 10px;
+        padding-bottom: 120px;
+      }
+      .makeup-artists h2 {
+        font-size: 2rem;
+      }
+      .artist-card {
+        padding: 15px;
+      }
+    }
+    /* FIX: Increased photo height for mobile */
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .filter-links {
+        gap: 6px;
+      }
+      .filter-links a {
+        padding: 5px 12px;
+        font-size: 0.85rem;
+      }
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding-bottom: 140px;
+      }
+      .makeup-artists h2 {
+        font-size: 1.8rem;
+      }
+      .artist-card img {
+        width: 100px;
+        height: 100px;
+      }
+      .whatsapp-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 90px;
+        right: 15px;
+      }
+      .whatsapp-btn i {
+        font-size: 1.6rem;
+      }
+      /* FIX: Make photos taller on mobile */
+      .card {
+        aspect-ratio: 4/5; /* Changed from 1/1 to make photos taller */
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Video Background -->
+  <video class="video-bg" autoplay muted loop playsinline>
+    <source src="protfolio.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+  <!-- Navbar -->
+  <header class="bg-emerald-800 bg-opacity-90 text-white sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <div class="text-2xl font-bold mr-2">
+            <i class="fas fa-camera-retro mr-2"></i>
+            Studio S+
+          </div>
+          <span class="hidden md:inline text-sm opacity-80">Premium Photography</span>
+        </div>
+        
+        <nav class="hidden md:flex space-x-6">
+          <a href="index.html">Home</a>
+      <a href="pricing.html">Pricing Plans</a>
+      <a href="portfolio.html">Portfolios</a>
+      <a href="video.html">Video</a>
+      <a href="contect.html">About Me</a>
+      <a href="contact.html">Contact</a>
+        </nav>
+        
+        <button class="md:hidden text-xl focus:outline-none" id="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
+        <div class="flex flex-col space-y-3">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="pricing.html" class="nav-link font-bold">Pricing</a>
+          <a href="protfolio.html" class="nav-link">Portfolio</a>
+          <a href="video.html" class="nav-link">Video</a>
+          <a href="contect.html" class="nav-link">About</a>
+          <a href="about.html" class="nav-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Hero Section -->
+  <section class="hero fade-in">
+    <h1>Capturing Life's Precious Moments</h1>
+    <p>Explore our stunning portfolio of portrait and wedding photography that tells your unique story</p>
+  </section>
+  <!-- Filter Links -->
+  <section class="filter-links fade-in">
+    <a class="active" onclick="filterSelection('all')">Show All</a>
+    <a onclick="filterSelection('portrait')">Portrait</a>
+    <a onclick="filterSelection('wedding')">Wedding</a>
+  </section>
+  <!-- Gallery -->
+  <section class="portfolio-grid">
+    <!-- Portrait Photos -->
+    <div class="card portrait fade-in"><img src="omk1.jpeg" alt="Portrait 1" /></div>
+    <div class="card portrait fade-in"><img src="omk2.jpeg" alt="Portrait 2" /></div>
+    <div class="card portrait fade-in"><img src="omk3.jpeg" alt="Portrait 3" /></div>
+    <div class="card portrait fade-in"><img src="omk4.jpeg" alt="Portrait 4" /></div>
+    <div class="card portrait fade-in"><img src="omk5.jpeg" alt="Portrait 5" /></div>
+    <div class="card portrait fade-in"><img src="omk6.jpeg" alt="Portrait 6" /></div>
+    <div class="card portrait fade-in"><img src="omk7.jpeg" alt="Portrait 7" /></div>
+    <div class="card portrait fade-in"><img src="omk8.jpeg" alt="Portrait 8" /></div>
+    <div class="card portrait fade-in"><img src="omk9.jpeg" alt="Portrait 9" /></div>
+    <div class="card portrait fade-in"><img src="omk10.jpeg" alt="Portrait 10" /></div>
+    <div class="card portrait fade-in"><img src="omk11.jpeg" alt="Portrait 11" /></div>
+    <div class="card portrait fade-in"><img src="omk12.jpeg" alt="Portrait 12" /></div>
+    <div class="card portrait fade-in"><img src="omk13.jpeg" alt="Portrait 13" /></div>
+    <div class="card portrait fade-in"><img src="omk14.jpeg" alt="Portrait 14" /></div>
+    <div class="card portrait fade-in"><img src="omk15.jpeg" alt="Portrait 15" /></div>
+    <div class="card portrait fade-in"><img src="omk16.jpeg" alt="Portrait 16" /></div>
+    <div class="card portrait fade-in"><img src="omk17.jpeg" alt="Portrait 17" /></div>
+    <div class="card portrait fade-in"><img src="omk18.jpeg" alt="Portrait 18" /></div>
+    <div class="card portrait fade-in"><img src="omk19.jpeg" alt="Portrait 19" /></div>
+    <div class="card portrait fade-in"><img src="omk20.jpeg" alt="Portrait 20" /></div>
+    <div class="card portrait fade-in"><img src="omk21.jpeg" alt="Portrait 21" /></div>
+    <div class="card portrait fade-in"><img src="omk22.jpeg" alt="Portrait 22" /></div>
+    <div class="card portrait fade-in"><img src="omk23.jpeg" alt="Portrait 23" /></div>
+    <div class="card portrait fade-in"><img src="omk24.jpeg" alt="Portrait 24" /></div>
+    <div class="card portrait fade-in"><img src="omk25.jpeg" alt="Portrait 25" /></div>
+    <div class="card portrait fade-in"><img src="omk26.jpeg" alt="Portrait 26" /></div>
+    <div class="card portrait fade-in"><img src="omk27.jpeg" alt="Portrait 27" /></div>
+    <div class="card portrait fade-in"><img src="omk28.jpeg" alt="Portrait 28" /></div>
+    <div class="card portrait fade-in"><img src="omk29.jpeg" alt="Portrait 29" /></div>
+    <div class="card portrait fade-in"><img src="omk30.jpeg" alt="Portrait 30" /></div>
+    <div class="card portrait fade-in"><img src="omk31.jpeg" alt="Portrait 31" /></div>
+    <div class="card portrait fade-in"><img src="omk32.jpeg" alt="Portrait 32" /></div>
+    <div class="card portrait fade-in"><img src="omk33.jpeg" alt="Portrait 33" /></div>
+    <div class="card portrait fade-in"><img src="omk34.jpeg" alt="Portrait 34" /></div>
+    <div class="card portrait fade-in"><img src="omk35.jpeg" alt="Portrait 35" /></div>
+    <div class="card portrait fade-in"><img src="omk36.jpeg" alt="Portrait 36" /></div>
+    <div class="card portrait fade-in"><img src="omk37.jpeg" alt="Portrait 37" /></div>
+    <div class="card portrait fade-in"><img src="omk38.jpeg" alt="Portrait 38" /></div>
+    <div class="card portrait fade-in"><img src="omk39.jpeg" alt="Portrait 39" /></div>
+    <div class="card portrait fade-in"><img src="omk40.jpeg" alt="Portrait 40" /></div>
+    <div class="card portrait fade-in"><img src="omk41.jpeg" alt="Portrait 41" /></div>
+    <div class="card portrait fade-in"><img src="omk42.jpeg" alt="Portrait 42" /></div>
+    <!-- Wedding Photos -->
+    <div class="card wedding fade-in"><img src="wimg1.jpeg" alt="Wedding 1" /></div>
+    <div class="card wedding fade-in"><img src="wimg2.jpeg" alt="Wedding 2" /></div>
+    <div class="card wedding fade-in"><img src="wimg3.jpeg" alt="Wedding 3" /></div>
+    <div class="card wedding fade-in"><img src="wimg4.jpeg" alt="Wedding 4" /></div>
+    <div class="card wedding fade-in"><img src="wimg5.jpeg" alt="Wedding 5" /></div>
+    <div class="card wedding fade-in"><img src="wimg6.jpeg" alt="Wedding 6" /></div>
+    <div class="card wedding fade-in"><img src="wimg7.jpeg" alt="Wedding 7" /></div>
+    <div class="card wedding fade-in"><img src="wimg8.jpeg" alt="Wedding 8" /></div>
+    <div class="card wedding fade-in"><img src="wimg9.jpeg" alt="Wedding 9" /></div>
+    <div class="card wedding fade-in"><img src="wimg10.jpeg" alt="Wedding 10" /></div>
+    <div class="card wedding fade-in"><img src="wimg11.jpeg" alt="Wedding 11" /></div>
+    <div class="card wedding fade-in"><img src="wimg12.jpeg" alt="Wedding 12" /></div>
+    <div class="card wedding fade-in"><img src="wimg13.jpeg" alt="Wedding 13" /></div>
+    <div class="card wedding fade-in"><img src="wimg14.jpeg" alt="Wedding 14" /></div>
+    <div class="card wedding fade-in"><img src="wimg15.jpeg" alt="Wedding 15" /></div>
+    <div class="card wedding fade-in"><img src="wimg16.jpeg" alt="Wedding 16" /></div>
+    <div class="card wedding fade-in"><img src="wimg17.jpeg" alt="Wedding 17" /></div>
+    <div class="card wedding fade-in"><img src="wimg18.jpeg" alt="Wedding 18" /></div>
+    <div class="card wedding fade-in"><img src="wimg19.jpeg" alt="Wedding 19" /></div>
+    <div class="card wedding fade-in"><img src="wimg20.jpeg" alt="Wedding 20" /></div>
+    <div class="card wedding fade-in"><img src="wimg21.jpeg" alt="Wedding 21" /></div>
+    <div class="card wedding fade-in"><img src="wimg22.jpeg" alt="Wedding 22" /></div>
+    <div class="card wedding fade-in"><img src="wimg23.jpeg" alt="Wedding 23" /></div>
+    <div class="card wedding fade-in"><img src="wimg24.jpeg" alt="Wedding 24" /></div>
+    <div class="card wedding fade-in"><img src="wimg25.jpeg" alt="Wedding 25" /></div>
+    <div class="card wedding fade-in"><img src="wimg26.jpeg" alt="Wedding 26" /></div>
+    <div class="card wedding fade-in"><img src="wimg27.jpeg" alt="Wedding 27" /></div>
+    <div class="card wedding fade-in"><img src="wimg28.jpeg" alt="Wedding 28" /></div>
+    <div class="card wedding fade-in"><img src="wimg29.jpeg" alt="Wedding 29" /></div>
+    <div class="card wedding fade-in"><img src="wimg30.jpeg" alt="Wedding 30" /></div>
+    <div class="card wedding fade-in"><img src="wimg31.jpeg" alt="Wedding 31" /></div>
+    <div class="card wedding fade-in"><img src="wimg32.jpeg" alt="Wedding 32" /></div>
+    <div class="card wedding fade-in"><img src="wimg33.jpeg" alt="Wedding 33" /></div>
+    <div class="card wedding fade-in"><img src="wimg34.jpeg" alt="Wedding 34" /></div>
+    <div class="card wedding fade-in"><img src="wimg35.jpeg" alt="Wedding 35" /></div>
+    <div class="card wedding fade-in"><img src="wimg36.jpeg" alt="Wedding 36" /></div>
+    <div class="card wedding fade-in"><img src="wimg37.jpeg" alt="Wedding 37" /></div>
+    <div class="card wedding fade-in"><img src="wimg38.jpeg" alt="Wedding 38" /></div>
+    <div class="card wedding fade-in"><img src="wimg39.jpeg" alt="Wedding 39" /></div>
+    <div class="card wedding fade-in"><img src="wimg40.jpeg" alt="Wedding 40" /></div>
+    <div class="card wedding fade-in"><img src="wimg41.jpeg" alt="Wedding 41" /></div>
+    <div class="card wedding fade-in"><img src="wimg42.jpeg" alt="Wedding 42" /></div>
+    <div class="card wedding fade-in"><img src="himg1.jpeg" alt="Wedding 43" /></div>
+    <div class="card wedding fade-in"><img src="himg2.jpeg" alt="Wedding 44" /></div>
+    <div class="card wedding fade-in"><img src="himg3.jpeg" alt="Wedding 45" /></div>
+    <div class="card wedding fade-in"><img src="himg4.jpeg" alt="Wedding 46" /></div>
+    <div class="card wedding fade-in"><img src="wimg42.jpeg" alt="Wedding 47" /></div>
+    <div class="card wedding fade-in"><img src="wbimg.jpeg" alt="Wedding 48" /></div>
+    <div class="card wedding fade-in"><img src="wbimg1.jpeg" alt="Wedding 49" /></div>
+    <div class="card wedding fade-in"><img src="wbimg2.jpeg" alt="Wedding 50" /></div>
+    <div class="card wedding fade-in"><img src="wbimg3.jpeg" alt="Wedding 51" /></div>
+    <div class="card wedding fade-in"><img src="wbimg4.jpeg" alt="Wedding 52" /></div>
+    <div class="card wedding fade-in"><img src="bimg1.jpeg" alt="Wedding 53" /></div>
+    <div class="card wedding fade-in"><img src="bimg2.jpeg" alt="Wedding 54" /></div>
+    <div class="card wedding fade-in"><img src="bimg3.jpeg" alt="Wedding 55" /></div>
+    <div class="card wedding fade-in"><img src="bimg4.jpeg" alt="Wedding 56" /></div>
+    <div class="card wedding fade-in"><img src="bimg5.jpeg" alt="Wedding 57" /></div>
+    <div class="card wedding fade-in"><img src="bimg6.jpeg" alt="Wedding 58" /></div>
+    <div class="card wedding fade-in"><img src="bimg7.jpeg" alt="Wedding 59" /></div>
+    <div class="card wedding fade-in"><img src="bimg8.jpeg" alt="Wedding 60" /></div>
+    <div class="card wedding fade-in"><img src="bimg9.jpeg" alt="Wedding 61" /></div>
+    <div class="card wedding fade-in"><img src="bimg10.jpeg" alt="Wedding 62" /></div>
+    <div class="card wedding fade-in"><img src="bimg11.jpeg" alt="Wedding 63" /></div>
+    <div class="card wedding fade-in"><img src="bimg12.jpeg" alt="Wedding 64" /></div>
+    <div class="card wedding fade-in"><img src="bimg13.jpeg" alt="Wedding 65" /></div>
+    <div class="card wedding fade-in"><img src="bimg14.jpeg" alt="Wedding 66" /></div>
+    <div class="card wedding fade-in"><img src="bimg15.jpeg" alt="Wedding 67" /></div>
+    <div class="card wedding fade-in"><img src="bimg16.jpeg" alt="Wedding 68" /></div>
+    <div class="card wedding fade-in"><img src="bimg17.jpeg" alt="Wedding 69" /></div>
+    <div class="card wedding fade-in"><img src="bimg18.jpeg" alt="Wedding 70" /></div>
+    <div class="card wedding fade-in"><img src="bimg19.jpeg" alt="Wedding 71" /></div>
+    <div class="card wedding fade-in"><img src="bimg20.jpeg" alt="Wedding 72" /></div>
+    <div class="card wedding fade-in"><img src="bimg21.jpeg" alt="Wedding 73" /></div>
+    <div class="card wedding fade-in"><img src="bimg22.jpeg" alt="Wedding 74" /></div>
+    <div class="card wedding fade-in"><img src="bimg23.jpeg" alt="Wedding 75" /></div>
+    <div class="card wedding fade-in"><img src="bimg24.jpeg" alt="Wedding 76" /></div>
+    <div class="card wedding fade-in"><img src="bimg25.jpeg" alt="Wedding 77" /></div>
+    <div class="card wedding fade-in"><img src="bimg26.jpeg" alt="Wedding 78" /></div>
+    <div class="card wedding fade-in"><img src="bimg27.jpeg" alt="Wedding 79" /></div>
+    <div class="card wedding fade-in"><img src="bimg28.jpeg" alt="Wedding 80" /></div>
+    <div class="card wedding fade-in"><img src="bimg29.jpeg" alt="Wedding 81" /></div>
+    <div class="card wedding fade-in"><img src="bimg30.jpeg" alt="Wedding 82" /></div>
+    <div class="card wedding fade-in"><img src="bimg31.jpeg" alt="Wedding 83" /></div>
+    <div class="card wedding fade-in"><img src="bimg32.jpeg" alt="Wedding 84" /></div>
+    <div class="card wedding fade-in"><img src="bimg33.jpeg" alt="Wedding 85" /></div>
+    <div class="card wedding fade-in"><img src="bimg34.jpeg" alt="Wedding 86" /></div>
+    <div class="card wedding fade-in"><img src="bimg35.jpeg" alt="Wedding 87" /></div>
+    <div class="card wedding fade-in"><img src="bimg36.jpeg" alt="Wedding 88" /></div>
+    <div class="card wedding fade-in"><img src="bimg37.jpeg" alt="Wedding 89" /></div>
+    <div class="card wedding fade-in"><img src="bimg38.jpeg" alt="Wedding 90" /></div>
+    <div class="card wedding fade-in"><img src="bimg39.jpeg" alt="Wedding 91" /></div>
+    <div class="card wedding fade-in"><img src="bimg40.jpeg" alt="Wedding 92" /></div>
+    <div class="card wedding fade-in"><img src="bimg41.jpeg" alt="Wedding 93" /></div>
+    <div class="card wedding fade-in"><img src="bimg42.jpeg" alt="Wedding 94" /></div>
+    <div class="card wedding fade-in"><img src="bimg43.jpeg" alt="Wedding 95" /></div>
+    <div class="card wedding fade-in"><img src="bimg45.jpeg" alt="Wedding 96" /></div>
+    <div class="card wedding fade-in"><img src="bimg46.jpeg" alt="Wedding 97" /></div>
+  </section>
+  <!-- Makeup Artists Section -->
+  <section class="makeup-artists">
+    <span class="subtitle">OUR MAKEUP ARTISTS</span>
+    <h2>Meet Our Makeup Artists</h2>
+    <div class="makeup-grid">
+      <div class="artist-card fade-in">
+        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Sonia Roy - Makeup Artist">
+        <h3>Sonia Roy</h3>
+        <p>Makeup Artist</p>
+        <p>Sonia's artistry in bridal makeup transforms clients into their most radiant selves, perfectly complementing our photography.</p>
+        <div class="contact-info">
+          <p><a href="tel:+919876543213"><i class="fas fa-phone"></i> +91 9876543213</a></p>
+          <p><a href="https://www.instagram.com/soniaroy_makeup" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></p>
+        </div>
+      </div>
+      <div class="artist-card fade-in">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a05d5ae0df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Kavita Sen - Makeup Artist">
+        <h3>Kavita Sen</h3>
+        <p>Makeup Artist</p>
+        <p>Kavita's creative makeup designs enhance the beauty of every moment, ensuring stunning visuals in our shoots.</p>
+        <div class="contact-info">
+          <p><a href="tel:+919123456786"><i class="fas fa-phone"></i> +91 9123456786</a></p>
+          <p><a href="https://www.instagram.com/kavitasen_makeup" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- WhatsApp -->
+  <div class="whatsapp-btn">
+    <a href="https://wa.me/918158027690" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- About -->
+        <div>
+          <h3 class="text-xl font-bold mb-4 flex items-center">
+            <i class="fas fa-camera-retro mr-2"></i> Studio S+
+          </h3>
+          <p class="text-gray-400">
+            Professional photography and videography services in West Bengal. 
+            Capturing your precious moments with creativity and passion.
+          </p>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors duration-300">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+            <li><a href="pricing.html" class="text-gray-400 hover:text-white transition-colors duration-300">Pricing</a></li>
+            <li><a href="protfolio.html" class="text-gray-400 hover:text-white transition-colors duration-300">Portfolio</a></li>
+            <li><a href="video.html" class="text-gray-400 hover:text-white transition-colors duration-300">Video Services</a></li>
+            <li><a href="contect.html" class="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors duration-300">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Services -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Services</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Wedding Photography</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Pre-Wedding Shoots</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Engagement Photography</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Family Portraits</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Event Coverage</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Cinematic Videos</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-2 text-gray-400"></i>
+              <span class="text-gray-400">Kolkata, West Bengal, India</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-2 text-gray-400"></i>
+              <a href="tel:+918158027690" class="text-gray-400 hover:text-white transition-colors duration-300">+91 8158027690</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-gray-400"></i>
+              <a href="mailto:contact@studiosplus.com" class="text-gray-400 hover:text-white transition-colors duration-300">contact@studiosplus.com</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-clock mr-2 text-gray-400"></i>
+              <span class="text-gray-400">Mon-Sun: 9AM - 8PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+        <p>© 2025 STUDIO S+ PRODUCTION. All rights reserved. Created by Surajit Das (Jadavpur University, CSE)</p>
+      </div>
+    </div>
+  </footer>
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-emerald-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+    
+    // FAQ accordion - optimized
+    const faqToggles = document.querySelectorAll('.faq-toggle');
+    let activeFaq = null;
+    
+    function handleFaqClick(e) {
+      const button = e.currentTarget;
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('i');
+      
+      // Close previously active FAQ if different from current
+      if (activeFaq && activeFaq !== content) {
+        activeFaq.classList.remove('active');
+        activeFaq.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+      }
+      
+      // Toggle current FAQ
+      content.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+      
+      // Update active FAQ reference
+      activeFaq = content.classList.contains('active') ? content : null;
+    }
+    
+    faqToggles.forEach(button => {
+      button.addEventListener('click', handleFaqClick, { passive: true });
+    });
+    
+    // Back to top button
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.remove('opacity-0', 'invisible');
+        backToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopButton.classList.remove('opacity-100', 'visible');
+        backToTopButton.classList.add('opacity-0', 'invisible');
+      }
+    });
+    
+    document.getElementById('back-to-top').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+  
+  
+  <script>
+    // Filter function
+    function filterSelection(category) {
+      const cards = document.querySelectorAll('.card');
+      const links = document.querySelectorAll('.filter-links a');
+      links.forEach(link => link.classList.remove('active'));
+      document.querySelector(`.filter-links a[onclick*="${category}"]`).classList.add('active');
+      cards.forEach(card => {
+        if (category === 'all') {
+          card.classList.remove('hidden');
+        } else {
+          if (card.classList.contains(category)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        }
+      });
+    }
+    // Initial state
+    filterSelection('all');
+    // Mobile menu toggle
+    function toggleMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('active');
+    }
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.remove('active');
+      });
+    });
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('mainHeader');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    // Animate elements when they come into view
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeElements.forEach(element => {
+      fadeObserver.observe(element);
+    });
+  </script>
+</body>
+</html>

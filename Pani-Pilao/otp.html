@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNI Pilao - OTP Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            margin: 0 5px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+        .otp-input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        .otp-input.filled {
+            border-color: #10b981;
+        }
+        .wave-animation {
+            animation: wave 1.5s infinite;
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold">PNI Pilao</h1>
+                    <p class="text-blue-100">Premium Rice Products</p>
+                </div>
+                <div class="wave-animation">
+                    <i class="fas fa-lock text-3xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-6">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800">OTP Verification</h2>
+                <p class="text-gray-600 mt-2">We've sent a 6-digit code to your mobile number</p>
+                <p class="font-medium text-gray-800 mt-1">+62 ••• ••• 1234</p>
+            </div>
+            
+            <!-- OTP Input -->
+            <form id="otpForm" class="mb-6">
+                <div class="flex justify-center mb-8">
+                    <input type="text" maxlength="1" class="otp-input" data-index="1" required>
+                    <input type="text" maxlength="1" class="otp-input" data-index="2" required>
+                    <input type="text" maxlength="1" class="otp-input" data-index="3" required>
+                    <input type="text" maxlength="1" class="otp-input" data-index="4" required>
+                    <input type="text" maxlength="1" class="otp-input" data-index="5" required>
+                    <input type="text" maxlength="1" class="otp-input" data-index="6" required>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+                    Verify OTP
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </form>
+            
+            <!-- Resend OTP -->
+            <div class="text-center text-sm text-gray-600">
+                <p>Didn't receive the code? <span id="countdown" class="font-medium text-blue-600">Resend in 30s</span></p>
+                <button id="resendBtn" class="mt-2 text-blue-600 font-medium hidden" disabled>
+                    Resend OTP
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-100 p-4 text-center text-sm text-gray-600">
+            <p>Having trouble? <a href="#" class="text-blue-600 hover:underline">Contact Support</a></p>
+            <p class="mt-1">© 2023 PNI Pilao. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otpForm = document.getElementById('otpForm');
+            const countdownElement = document.getElementById('countdown');
+            const resendBtn = document.getElementById('resendBtn');
+            
+            let countdown = 30;
+            let countdownInterval;
+            
+            // Start countdown
+            startCountdown();
+            
+            // OTP input handling
+            otpInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1) {
+                        this.classList.add('filled');
+                        const nextIndex = parseInt(this.dataset.index) + 1;
+                        const nextInput = document.querySelector(`.otp-input[data-index="${nextIndex}"]`);
+                        if (nextInput) nextInput.focus();
+                    } else {
+                        this.classList.remove('filled');
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0) {
+                        const prevIndex = parseInt(this.dataset.index) - 1;
+                        const prevInput = document.querySelector(`.otp-input[data-index="${prevIndex}"]`);
+                        if (prevInput) {
+                            prevInput.focus();
+                            prevInput.value = '';
+                            prevInput.classList.remove('filled');
+                        }
+                    }
+                });
+            });
+            
+            // Form submission
+            otpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Collect OTP
+                let otp = '';
+                otpInputs.forEach(input => {
+                    otp += input.value;
+                });
+                
+                // Simulate verification
+                if (otp.length === 6) {
+                    // Show loading state
+                    const submitBtn = otpForm.querySelector('button');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verifying...';
+                    submitBtn.disabled = true;
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        // Success case
+                        showSuccessMessage();
+                        
+                        // Reset form
+                        submitBtn.innerHTML = 'Verify OTP <i class="fas fa-arrow-right ml-2"></i>';
+                        submitBtn.disabled = false;
+                    }, 1500);
+                }
+            });
+            
+            // Resend OTP
+            resendBtn.addEventListener('click', function() {
+                // Show sending state
+                resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+                resendBtn.disabled = true;
+                
+                // Simulate sending OTP
+                setTimeout(() => {
+                    // Reset countdown
+                    countdown = 30;
+                    startCountdown();
+                    
+                    // Reset button
+                    resendBtn.innerHTML = 'Resend OTP';
+                    resendBtn.classList.add('hidden');
+                    countdownElement.classList.remove('hidden');
+                    
+                    // Show success toast
+                    showToast('New OTP sent successfully!');
+                }, 1000);
+            });
+            
+            function startCountdown() {
+                clearInterval(countdownInterval);
+                updateCountdownText();
+                
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    updateCountdownText();
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        countdownElement.classList.add('hidden');
+                        resendBtn.classList.remove('hidden');
+                        resendBtn.disabled = false;
+                    }
+                }, 1000);
+            }
+            
+            function updateCountdownText() {
+                countdownElement.textContent = `Resend in ${countdown}s`;
+            }
+            
+            function showSuccessMessage() {
+                // Create success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+                successDiv.innerHTML = `
+                    <div class="relative bg-white p-8 rounded-xl max-w-sm w-full text-center animate-bounce-in overflow-hidden">
+                        <div class="absolute inset-0 opacity-10">
+                            <img src="https://images.unsplash.com/photo-1586201375761-83865001e8d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Rice field background" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-check text-green-600 text-3xl"></i>
+                        </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Verification Successful!</h3>
+                            <p class="text-gray-600 mb-6">You can now access your PNI Pilao account.</p>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                            Continue
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(successDiv);
+            }
+            
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg flex items-center animate-fade-in-up';
+                toast.innerHTML = `
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    <span>${message}</span>
+                `;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('animate-fade-out');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

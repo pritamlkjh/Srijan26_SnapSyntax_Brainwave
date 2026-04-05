@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio S+ Production - Premium Photography Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Font Import */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    /* Base Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+      color: #1f2937;
+    }
+    
+    /* Video Background */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.4);
+    }
+    
+    /* Navigation */
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Pricing Cards */
+    .price-card {
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .price-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .highlight-card {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    }
+    
+    /* Feature Icons */
+    .feature-icon {
+      color: #059669;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    
+    .highlight-card .feature-icon {
+      color: white;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 1s ease-out forwards;
+    }
+    
+    .animate-bounce {
+      animation: bounce 2s infinite;
+    }
+    
+    /* FAQ Accordion */
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      will-change: max-height;
+      transition: 
+        max-height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+        opacity 0.3s ease,
+        transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(-10px);
+      padding: 0 1rem;
+    }
+    
+    .faq-content.active {
+      max-height: 1000px;
+      opacity: 1;
+      transform: translateY(0);
+      padding: 1rem;
+    }
+    
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+    
+    .faq-toggle {
+      transition: 
+        background-color 0.3s ease,
+        transform 0.2s ease;
+    }
+
+    .faq-toggle:hover {
+      transform: translateX(5px);
+    }
+    
+    .faq-item {
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Back to Top Button */
+    #back-to-top {
+      transition: all 0.3s ease;
+    }
+    
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #back-to-top:hover {
+      background-color: #047857;
+      transform: translateY(-3px);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #059669;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #047857;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Video Background -->
+  <video class="video-bg" autoplay muted loop playsinline>
+    <source src="orgpvd.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- Navbar -->
+  <header class="bg-emerald-800 bg-opacity-90 text-white sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <div class="text-2xl font-bold mr-2">
+            <i class="fas fa-camera-retro mr-2"></i>
+            Studio S+
+          </div>
+          <span class="hidden md:inline text-sm opacity-80">Premium Photography</span>
+        </div>
+        
+        <nav class="hidden md:flex space-x-6">
+          <a href="index.html">Home</a>
+      <a href="pricing.html">Pricing Plans</a>
+      <a href="portfolio.html">Portfolios</a>
+      <a href="video.html">Video</a>
+      <a href="contect.html">About Me</a>
+      <a href="contact.html">Contact</a>
+        </nav>
+        
+        <button class="md:hidden text-xl focus:outline-none" id="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
+        <div class="flex flex-col space-y-3">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="pricing.html" class="nav-link font-bold">Pricing</a>
+          <a href="protfolio.html" class="nav-link">Portfolio</a>
+          <a href="video.html" class="nav-link">Video</a>
+          <a href="contect.html" class="nav-link">About</a>
+          <a href="about.html" class="nav-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="min-h-screen flex items-center justify-center text-white relative">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="hero-title text-4xl md:text-6xl font-bold mb-4 animate-fade-in">Our Pricing Plans</h1>
+      <p class="hero-subtitle text-xl md:text-2xl mb-8 max-w-2xl mx-auto opacity-90">
+        Capture your precious moments with our professional photography services
+      </p>
+      <a href="#pricing" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 inline-flex items-center">
+        View Packages <i class="fas fa-arrow-down ml-2"></i>
+      </a>
+    </div>
+    
+    <div class="absolute bottom-10 left-0 right-0 text-center">
+      <a href="#pricing" class="text-white text-2xl animate-bounce">
+        <i class="fas fa-chevron-down"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="py-16 bg-white bg-opacity-90 backdrop-blur-sm">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+          <i class="fas fa-phone-alt mr-3 text-emerald-600"></i>
+          Connect Via Call: +91 8158027690
+        </h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          All our West Bengal Wedding Packages are customized to suit your needs. 
+          Start with a package and add or subtract accordingly.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Package 1 -->
+        <div class="price-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-105">
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Pre Wedding Photography</h3>
+            <div class="flex items-baseline mb-6">
+              <span class="text-4xl font-bold text-emerald-600">₹25K</span>
+              <span class="ml-2 text-gray-500">/session</span>
+            </div>
+            
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>4K Camera, Drone, Gimbal, Camera Slider</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>Light * 2 person</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>50 images fully edited (No Album)</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>4K Cinematic Music Video 3–4 min</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>2 Reels (up to 1 min)</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>1–2 Days' coverage</span>
+              </li>
+            </ul>
+            
+            <a href="contect.html" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center font-bold py-3 px-4 rounded-lg transition duration-300">
+              Book Now <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Package 2 (Highlighted) -->
+        <div class="price-card rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-105 highlight-card text-white">
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-2xl font-bold">Single Side Wedding</h3>
+              <span class="bg-white text-emerald-600 text-xs font-bold px-2 py-1 rounded-full">POPULAR</span>
+            </div>
+            <div class="flex items-baseline mb-6">
+              <span class="text-4xl font-bold">₹35K</span>
+              <span class="ml-2 opacity-80">/event</span>
+            </div>
+            
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1 text-white"></i>
+                <span>Cinematic Video 30-45 min, Highlight & Teaser</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1 text-white"></i>
+                <span>Light * 2 person | 2 Days' coverage</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1 text-white"></i>
+                <span>Wedding + Reception coverage</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1 text-white"></i>
+                <span>25 Page Premium 3 Part Combo Album</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1 text-white"></i>
+                <span>2 Reels (up to 1 min)</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1 text-white"></i>
+                <span>Soft Copies On Client's Harddrive or Mobile</span>
+              </li>
+            </ul>
+            
+            <a href="contect.html" class="block w-full bg-white hover:bg-gray-100 text-emerald-600 text-center font-bold py-3 px-4 rounded-lg transition duration-300">
+              Book Now <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Package 3 -->
+        <div class="price-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 transform hover:scale-105">
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Both Side Wedding</h3>
+            <div class="flex items-baseline mb-6">
+              <span class="text-4xl font-bold text-emerald-600">₹80K</span>
+              <span class="ml-2 text-gray-500">/full event</span>
+            </div>
+            
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>Cinematic Video 35-1 hours, Highlight & Teaser</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>Light * 4 person | 3 Days' coverage</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>Wedding + Reception full coverage</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>2 × 25 Page Luxury 3 Part Combo Album</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>Free Photo With frame</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>4 Reels (up to 1 min)</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle feature-icon mt-1"></i>
+                <span>One Day Post Wedding shoot</span>
+              </li>
+            </ul>
+            
+            <a href="contect.html" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center font-bold py-3 px-4 rounded-lg transition duration-300">
+              Book Now <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Custom Package CTA -->
+      <div class="mt-16 bg-gray-50 rounded-xl p-8 text-center max-w-4xl mx-auto">
+        <h3 class="text-2xl font-bold text-gray-800 mb-4">Need a Custom Package?</h3>
+        <p class="text-gray-600 mb-6">
+          We understand every event is unique. Contact us to create a personalized package 
+          that perfectly matches your requirements and budget.
+        </p>
+        <a href="contect.html" class="inline-flex items-center bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-full transition duration-300">
+          <i class="fas fa-envelope mr-2"></i> Get a Custom Quote
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 bg-emerald-50 bg-opacity-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+        <i class="fas fa-star mr-2 text-emerald-600"></i>
+        What Our Clients Say
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400 text-xl mr-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "Studio S+ captured our wedding beautifully. The photos and videos exceeded our expectations. Highly recommended!"
+          </p>
+          <div class="flex items-center">
+            <div class="bg-emerald-100 text-emerald-800 rounded-full w-10 h-10 flex items-center justify-center mr-3">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <h4 class="font-bold">Priya & Raj</h4>
+              <p class="text-sm text-gray-500">Kolkata Wedding</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial 2 -->
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400 text-xl mr-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "The pre-wedding shoot was amazing! The team was professional and creative. Love how our photos turned out."
+          </p>
+          <div class="flex items-center">
+            <div class="bg-emerald-100 text-emerald-800 rounded-full w-10 h-10 flex items-center justify-center mr-3">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <h4 class="font-bold">Ananya</h4>
+              <p class="text-sm text-gray-500">Pre-Wedding Shoot</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial 3 -->
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="flex items-center mb-4">
+            <div class="text-yellow-400 text-xl mr-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "Excellent service from start to finish. The wedding album is stunning and the video highlights are perfect."
+          </p>
+          <div class="flex items-center">
+            <div class="bg-emerald-100 text-emerald-800 rounded-full w-10 h-10 flex items-center justify-center mr-3">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <h4 class="font-bold">The Sen Family</h4>
+              <p class="text-sm text-gray-500">Family Event</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 animate-fade-in">
+        <i class="fas fa-question-circle mr-2 text-emerald-600 animate-bounce" style="animation-delay: 0.2s;"></i>
+        Frequently Asked Questions
+      </h2>
+      
+      <div class="space-y-4">
+        <!-- FAQ Item 1 -->
+        <div class="faq-item bg-white">
+          <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none flex justify-between items-center">
+            <span class="font-medium text-gray-800">How far in advance should I book your services?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 text-emerald-600"></i>
+          </button>
+          <div class="faq-content border-t border-gray-200">
+            <p class="text-gray-600">
+              We recommend booking at least 3-6 months in advance for weddings and 1-2 months for other events. 
+              Popular dates get booked quickly, especially during wedding season.
+            </p>
+          </div>
+        </div>
+        
+        <!-- FAQ Item 2 -->
+        <div class="faq-item">
+          <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none flex justify-between items-center">
+            <span class="font-medium text-gray-800">What's included in the editing process?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 text-emerald-600"></i>
+          </button>
+          <div class="faq-content">
+            <p class="text-gray-600">
+              Our editing includes color correction, exposure adjustment, cropping, and basic retouching. 
+              We maintain a natural look while enhancing the best qualities of each image.
+            </p>
+          </div>
+        </div>
+        
+        <!-- FAQ Item 3 -->
+        <div class="faq-item">
+          <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none flex justify-between items-center">
+            <span class="font-medium text-gray-800">Do you travel for destination weddings?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 text-emerald-600"></i>
+          </button>
+          <div class="faq-content">
+            <p class="text-gray-600">
+              Yes! We love destination weddings. Travel expenses would be added to the package cost, 
+              and we can discuss all details when planning your custom package.
+            </p>
+          </div>
+        </div>
+        
+        <!-- FAQ Item 4 -->
+        <div class="faq-item">
+          <button class="faq-toggle w-full text-left p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none flex justify-between items-center">
+            <span class="font-medium text-gray-800">How long does it take to receive our photos?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300 text-emerald-600"></i>
+          </button>
+          <div class="faq-content">
+            <p class="text-gray-600">
+              Typically, you'll receive a preview within 1 week and the full edited collection within 4-6 weeks 
+              for weddings, 2-3 weeks for other events. Rush delivery is available for an additional fee.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-8">
+        <a href="about.html" class="text-emerald-600 font-medium hover:text-emerald-800 inline-flex items-center">
+          View all FAQs <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-emerald-800 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6">Ready to Capture Your Special Moments?</h2>
+      <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+        Contact us today to discuss your photography needs and book your session
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <a href="tel:+918158027690" class="bg-white hover:bg-gray-100 text-emerald-800 font-bold py-3 px-8 rounded-full transition duration-300 inline-flex items-center justify-center">
+          <i class="fas fa-phone-alt mr-2"></i> Call Now
+        </a>
+        <a href="studioscinematography@gmail.com" class="border-2 border-white hover:bg-white hover:bg-opacity-10 font-bold py-3 px-8 rounded-full transition duration-300 inline-flex items-center justify-center">
+          <i class="fas fa-envelope mr-2"></i> Email Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- About -->
+        <div>
+          <h3 class="text-xl font-bold mb-4 flex items-center">
+            <i class="fas fa-camera-retro mr-2"></i> Studio S+
+          </h3>
+          <p class="text-gray-400">
+            Professional photography and videography services in West Bengal. 
+            Capturing your precious moments with creativity and passion.
+          </p>
+          <div class="flex space-x-4 mt-4">
+            <a href="https://www.facebook.com/indra.chandra.37853" class="text-gray-400 hover:text-white text-xl transition-colors duration-300">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/studiosplus_photography24/" class="text-gray-400 hover:text-white text-xl transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/@dreamshots7352" class="text-gray-400 hover:text-white text-xl transition-colors duration-300">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+            <li><a href="pricing.html" class="text-gray-400 hover:text-white transition-colors duration-300">Pricing</a></li>
+            <li><a href="protfolio.html" class="text-gray-400 hover:text-white transition-colors duration-300">Portfolio</a></li>
+            <li><a href="video.html" class="text-gray-400 hover:text-white transition-colors duration-300">Video Services</a></li>
+            <li><a href="contect.html" class="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors duration-300">Contact</a></li>
+          </ul>
+        </div>
+        
+        <!-- Services -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Services</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Wedding Photography</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Pre-Wedding Shoots</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Engagement Photography</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Family Portraits</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Event Coverage</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Cinematic Videos</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+          <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-2 text-gray-400"></i>
+              <span class="text-gray-400">Jhalda, Purulia, West Bengal, India</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-2 text-gray-400"></i>
+              <a href="tel:+918158027690" class="text-gray-400 hover:text-white transition-colors duration-300">+91 8158027690</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-gray-400"></i>
+              <a href="studioscinematography@gmail.com" class="text-gray-400 hover:text-white transition-colors duration-300">studioscinematography@gmail.com</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-clock mr-2 text-gray-400"></i>
+              <span class="text-gray-400">Mon-Sun: 9AM - 8PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+        <p>&copy; 2025 STUDIO S+ PRODUCTION. All rights reserved. Created by Surajit Das (Jadavpur University, CSE)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="fixed bottom-8 right-8 bg-emerald-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+    
+    // FAQ accordion - optimized
+    const faqToggles = document.querySelectorAll('.faq-toggle');
+    let activeFaq = null;
+    
+    function handleFaqClick(e) {
+      const button = e.currentTarget;
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('i');
+      
+      // Close previously active FAQ if different from current
+      if (activeFaq && activeFaq !== content) {
+        activeFaq.classList.remove('active');
+        activeFaq.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+      }
+      
+      // Toggle current FAQ
+      content.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+      
+      // Update active FAQ reference
+      activeFaq = content.classList.contains('active') ? content : null;
+    }
+    
+    faqToggles.forEach(button => {
+      button.addEventListener('click', handleFaqClick, { passive: true });
+    });
+    
+    // Back to top button
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.remove('opacity-0', 'invisible');
+        backToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopButton.classList.remove('opacity-100', 'visible');
+        backToTopButton.classList.add('opacity-0', 'invisible');
+      }
+    });
+    
+    document.getElementById('back-to-top').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

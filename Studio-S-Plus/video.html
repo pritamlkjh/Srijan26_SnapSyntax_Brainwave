@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Portfolio - Studio S+ Photography</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom styles that can't be done with Tailwind */
+    .status-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .video-container {
+      perspective: 1000px;
+    }
+    
+    .video-box {
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      transition: all 0.5s ease;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    
+    .video-box:hover {
+      transform: rotateY(15deg) translateY(-10px) scale(1.03);
+      box-shadow: 0 10px 25px rgb(36, 144, 42);
+    }
+    
+    .video-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .video-box:hover::before {
+      opacity: 1;
+    }
+    
+    .status-container {
+      perspective: 1000px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .status-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .reel-box {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      cursor: pointer;
+    }
+    
+    .reel-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 230, 118, 0.3);
+    }
+    
+    .reel-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0,230,118,0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .reel-box:hover::before {
+      opacity: 1;
+    }
+    
+    .whatsapp-btn {
+      transition: transform 0.3s ease;
+    }
+    
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #00e676;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .mobile-menu.open {
+      max-height: 500px;
+    }
+    .footer{
+      text-align: center;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-column {
+      flex: 1 1 200px;
+      margin: 10px 20px;
+    }
+
+    .footer-column h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .footer-column ul li a {
+      text-decoration: none;
+      color: #ccc;
+      transition: color 0.3s;
+    }
+
+    .footer-column ul li a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans">
+  <!-- Header -->
+  <header class="bg-emerald-900/90 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl md:text-3xl font-bold text-white">Studio S+ Photography</h1>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:block">
+          <ul class="flex space-x-6">
+            <li><a href="index.html" class="nav-link text-white hover:text-emerald-300 font-medium">Home</a></li>
+            <li><a href="pricing.html" class="nav-link text-white hover:text-emerald-300 font-medium">Pricing Plans</a></li>
+            <li><a href="protfolio.html" class="nav-link text-white hover:text-emerald-300 font-medium">Portfolios</a></li>
+            <li><a href="video.html" class="nav-link text-white hover:text-emerald-300 font-medium">Video</a></li>
+            <li><a href="contect.html" class="nav-link text-white hover:text-emerald-300 font-medium">About Me</a></li>
+            <li><a href="about.html" class="nav-link text-white hover:text-emerald-300 font-medium">Contact</a></li>
+          </ul>
+        </nav>
+        
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Navigation -->
+      <div id="mobile-menu" class="mobile-menu md:hidden mt-4">
+        <ul class="flex flex-col space-y-3">
+          <li><a href="index.html" class="block py-2 text-white hover:text-emerald-300 font-medium">Home</a></li>
+          <li><a href="pricing.html" class="block py-2 text-white hover:text-emerald-300 font-medium">Pricing Plans</a></li>
+          <li><a href="protfolio.html" class="block py-2 text-white hover:text-emerald-300 font-medium">Portfolios</a></li>
+          <li><a href="video.html" class="block py-2 text-white hover:text-emerald-300 font-medium">Video</a></li>
+          <li><a href="contect.html" class="block py-2 text-white hover:text-emerald-300 font-medium">About Me</a></li>
+          <li><a href="about.html" class="block py-2 text-white hover:text-emerald-300 font-medium">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Video Section -->
+  <section class="py-16 px-4 bg-black/70">
+    <div class="container mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-emerald-400">Featured Videos</h2>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls autoplay muted loop playsinline class="w-full rounded-lg">
+            <source src="wv.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Deepa & Roni Pre-Wedding</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="wv2.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Shantanu & Priyanka Wedding Teaser</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="wv3.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Poulami Wedding Reel</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="wv4.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Suravi Wedding Teaser</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="wv5.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Bridal look Mou</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="last1.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Pool Party Cinematic Clip</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="last2.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Haldi Cinematic Clip</p>
+        </div>
+        
+        <div class="video-box bg-gray-900 rounded-xl overflow-hidden p-4">
+          <video controls class="w-full rounded-lg">
+            <source src="last3.mp4" type="video/mp4">
+          </video>
+          <p class="mt-3 text-gray-300">Wedding Cinematic Clip</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Status Clips Section -->
+  <section class="py-16 px-4 bg-black/70">
+    <div class="container mx-auto">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-emerald-400">Status Clip</h2>
+      
+      <div class="status-container flex overflow-x-auto pb-8 gap-6 px-4 scroll-smooth">
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="sc2.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Booking ON</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="sc1.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Wedding</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="sc4.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Venue Setup</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="BackV.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Makeup Transition</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="about2.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Makeup Transition</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="id.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Makeup Transition</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="protfolio.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Makeup Transition</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="R1.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Makeup Transition</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="R2.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Wedding Teaser</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="R3.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Wedding Teaser</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="R4.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Wedding Teaser</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="R5.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Haldi Teaser</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="R6.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Wedding Teaser</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reel-box flex-shrink-0 relative w-64 h-96 rounded-2xl overflow-hidden shadow-lg group">
+          <video autoplay muted loop playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <source src="idb.mp4" type="video/mp4">
+          </video>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 group-hover:opacity-100">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                <i class="fas fa-play text-white text-xs"></i>
+              </div>
+              <p class="text-white font-medium">Wedding</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WhatsApp -->
+  <div class="whatsapp-btn fixed bottom-6 left-6 z-50">
+    <a href="https://wa.me/918158027690" target="_blank" class="block bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600">
+      <i class="fab fa-whatsapp text-white text-3xl"></i>
+    </a>
+  </div>
+
+  <!-- Footer -->
+   <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Studio S+</h3>
+        <p>Capturing emotions, creating memories through premium photography and cinematic videography.</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/studiosplus_photography24/" target="_blank">📷</a>
+          <a href="https://www.facebook.com/indra.chandra.37853" target="_blank">📘</a>
+          <a href="https://www.youtube.com/@dreamshots7352" target="_blank">💬</a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h3>Services</h3>
+        <ul>
+          <li>Wedding Photography</li>
+          <li>Pre-Wedding Shoots</li>
+          <li>Cinematic Videos</li>
+          <li>Event Coverage</li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="#client-love">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Contact Info</h3>
+        <ul>
+          <li>📞 +91 8158027690</li>
+          <li>📧 studioscinematography@gmail.com</li>
+          <li>📍 Jhalda, Purulia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 STUDIO S+ PRODUCTION. All rights reserved. Created by Surajit Das (Jadavpur University, CSE)
+    </div>
+  </footer>
+
+  <script>
+    // Add initial 3D animation to video boxes
+    document.addEventListener('DOMContentLoaded', () => {
+      const videoBoxes = document.querySelectorAll('.video-box');
+      videoBoxes.forEach((box, index) => {
+        setTimeout(() => {
+          box.style.transform = 'rotateY(5deg) translateY(10px)';
+          setTimeout(() => {
+            box.style.transform = '';
+          }, 500);
+        }, index * 100);
+      });
+      
+      const statusBoxes = document.querySelectorAll('.status-box');
+      statusBoxes.forEach((box, index) => {
+        setTimeout(() => {
+          box.style.transform = 'rotateX(5deg)';
+          setTimeout(() => {
+            box.style.transform = '';
+          }, 500);
+        }, index * 50);
+      });
+    });
+    
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      
+      // Change icon
+      const icon = mobileMenuButton.querySelector('i');
+      if (mobileMenu.classList.contains('open')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+    
+    // Close mobile menu when clicking on a link
+    const navLinks = document.querySelectorAll('#mobile-menu a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        const icon = mobileMenuButton.querySelector('i');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
